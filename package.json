@@ -1,0 +1,34 @@
+{
+  "name": "synchlayer",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node couchDB.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decodde/synchlayer.git"
+  },
+  "author": "makis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/decodde/synchlayer/issues"
+  },
+  "homepage": "https://github.com/decodde/synchlayer#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.7",
+    "multer": "^1.4.2",
+    "node-couchdb": "^1.3.0",
+    "nodemailer": "^6.4.6",
+    "pug": "^2.0.4",
+    "request": "^2.88.2",
+    "socket.io": "^2.3.0"
+  }
+}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>synctest</title>
+        <link rel="stylesheet" href="./bootstrap.min.css">
+        <script src="jquery.min.js"></script>
+        <script src="bootstrap.js"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="container-fluid">
+                
+                <br>
+                <br>
+                <div class="row">
+                    <select onchange="start(this.value)" class="form-control col-md-3" id="apiKey" >
+                        <option disabled >* select username to use *</option>
+                        <option selected value="8679796cc33fdf1cfe94854a0c97a178">* dannyma *</option>
+                        <option value="f033dbb551803ea0c5afd46587959f21">* tiny *</option>
+                        <option value="46cfffba655c80f203857f35e5b2cbd1">* toryelis *</option>
+                        <option value="46cfffba655c80f20tr857f35e5b2cbd1">* fake *</option>
+                    </select>
+                    <button class="center-text btn-sm btn-primary" id="connectBtn" style="visibility: hidden;" onclick="connect()" >Connect</button>
+                    <!--<button class="center-text btn-sm btn-primary"  onclick="getMessages()" >Fetch Messages</button>-->
+                </div>
+                <br>
+                <br>
+                <select class="form-control" id="to" onchange="switchChat(this.value)">
+                    <option selected disabled >* select username to chat with *</option>
+                    <option value="dannyma">* dannyma *</option>
+                    <option value="tiny">* tiny *</option>
+                    <option value="toryelis">* toryelis *</option>
+                </select>
+                
+                <div class=" card-body row">
+                    <form class="form-control card-body col-md-4 row" id="form">
+                        <div class="card chat" id="tinyChat">
+
+                        </div>
+                        <div class="card chat" id="toryelisChat">
+
+                        </div>
+                        <div class="card chat" id="dannymaChat">
+
+                        </div>
+                        <br>
+                        <div class="row">
+                            <input class="form-control col-sm-8 col-md-8 col-lg-8 col-xl-8" id="chat_input" type="text">
+                            <br>
+                            <input class="btn btn-primary col-sm-4 col-md-4 col-lg-4 col-xl-4" type="submit" value="Send">
+                        </div>    
+                    </form>
+                </div>
+                
+                <button class="center-text btn btn-secondary btn-success">Sync</button>
+
+            </div>
+        </div>
+        
+        
+        <script src="http://localhost:4678/socket.io/socket.io.js"></script>
+        <script>
+            var options={
+                method:"post",
+                headers:{
+                    "Content-Type":"application/json",
+                }
+            }
+            var serv=`http://localhost:4678`;
+            var sserv=`http://localhost:4678/?apiKey=8679796cc33fdf1cfe94854a0c97a178`
+            var socket = io.connect(sserv);
+            start=(x)=>{
+                sserv=`http://localhost:4678/?apiKey=${x}`
+                socket = io.connect(sserv);
+                return socket
+            }
+           
+            var apiKey=document.getElementById('apiKey').value;
+
+            switchChat=(x)=>{
+                apiKey=document.getElementById('apiKey').value
+                $(".chat").hide()
+                /*socket.emit("chatWith",{apiKey:apiKey,username:x});*/
+                getMessages(x);
+                $(`#${x}Chat`).show()
+            }
+            getMessages=async (user)=>{
+                apiKey=document.getElementById('apiKey').value;
+                options.body=JSON.stringify({username:user})
+                var req=await fetch(`${serv}/api/getMessagesFor/${apiKey}`,options);
+                req=await req.json();
+                if(req.type=="success"){
+                    if (req.data.messages.constructor.name == "Array"){
+                        req.data.messages.forEach(msg => {
+                            if(msg.to){
+                                $(`#${user}Chat`).append("<div class='card-body right col-md-8 bg-success'><h5><b>You</b></h5><p>"+msg.message+ "<p><span class='right'>"+new Date(msg.time).toTimeString().substring(0,7)+"</span></div><br/>")
+                            }
+                            else{
+                                $(`#${user}Chat`).append("<div class='card-body left col-md-8 bg-primary'><h5><b>"+msg.from+"</b></h5><p>"+msg.message+ "<p><span class='right'>"+new Date(msg.time).toTimeString().substring(0,7)+"</span></div><br/>")
+                            }
+                            window.scrollTo(0, document.body.scrollHeight);
+                        });
+                    }
+                    else console.log(req.data);
+                }
+            }
+            connect=()=>{
+                socket.emit("join",{apiKey:apiKey})
+            }
+            userAdd=(user)=>{
+
+            }
+            socket.on("user.add",userAdd)
+            socket.on('connect',(d)=>{
+                console.log("connected")
+                document.getElementById('connectBtn').style.visibility="visible"
+                socket.emit('join',{apiKey:apiKey});
+            })
+            socket.on("test",(x)=>{
+                console.log(x)
+                })
+            
+            socket.on('incomingMsg', (data)=> {
+                var from=data.with
+                console.log("incomingMessage from:: ",data.from)
+                $(`#${from}Chat`).append("<div class='card-body left col-md-8 bg-primary'><h5><b>"+data.from+"</b></h5><p>"+data.message+ "<p><span class='right'>"+new Date(data.time).toTimeString().substring(0,7)+"</span></div><br/>")
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+            socket.on('updateOnlineUsers',(data)=>{
+                console.log("onlineUsers :>>:  ",data)
+            })
+            socket.on('error',(d)=>{
+                console.log(d)
+            })
+            document.getElementById("form").onsubmit=(e)=>{
+                e.preventDefault();
+                sendMessage();
+            };
+            sendMessage=(x)=>{
+                var message;
+                x ? message = x : message = document.getElementById('chat_input').value;
+                
+                var msg={
+                    message:message,
+                    apiKey:apiKey,
+                    to:document.getElementById('to').value
+                }
+                $(`#${msg.to}Chat`).append("<div class='card-body right col-md-8 bg-success'><h5><b>You</b></h5><p>"+message+ "<p><span class='right'>"+new Date().toTimeString().substring(0,7)+"</span></div><br/>")
+                socket.emit('sendMessage', msg);
+            }
+            
+        </script>
+    </body>
+</html>

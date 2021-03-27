@@ -1,0 +1,422 @@
+[
+    {
+        "title":"Login",
+        "url":"/login",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username",
+                "password"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":["Success"],
+                "apiKey":""
+            },
+            {
+                "type":"error",
+                "msg":["Invalid username or password"," Failed to log in"]
+            }
+        ]
+    },
+    {
+        "title":"Account Creation",
+        "url":"/createAccount",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username",
+                "password",
+                "emailAddress"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Account created successfully"
+                ],
+                "apiKey":"${apiKey} : generated apiKey for user"
+
+            },
+            {
+                "type":"error",
+                "msg":[
+                    "Username taken",
+                    "Certain fields are empty",
+                    "Error encountered while creating account"
+                ]
+            }
+        ]
+    },
+    {
+        "title":"Username Existence",
+        "url":"/checkUsername",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":["Username does not exist"]
+            },
+            {
+                "type":"error",
+                "msg":["Username already in use"]
+            }
+        ]
+    },
+    {
+        "title":"Email Existence",
+        "url":"/checkEmail",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "emailAddress"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":["Email does not exist"]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Email already in use"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Add Friend",
+        "url":"/addAsFriend/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "newFriend"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":"${username_of_friend} is now in your friend list"
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "${username_of_friend} is already friends with you",
+                        "Invalid User",
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Delete Friend",
+        "url":"/deleteFriend/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "friend"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":"${username_of_friend} has been removed from your friend list"
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "${username_of_friend} not friends with you",
+                        "Invalid user",
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Retrieve Friends",
+        "url":"/getFriends /[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username : used if requesting for another user's friends"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Friends retreived successfully"
+                ],
+                "data":[
+                    {"username":"--username--"}
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid username",
+                        "Invalid ApiKey"
+
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Retrieve Profile",
+        "url":"/getProfile/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Profile retrieved successfully"
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid username",
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Retrieve Posts",
+        "url":"/getPosts/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "message:{'to','message','from','time'}"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Posts retrieved successfully"
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid username",
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Create Post",
+        "url":"/createPost/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Send Message",
+        "url":"/sendMessage/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username",
+                "message"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Message sent"
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid ApiKey",
+                        "Invalid User",
+                        "Error encountered while sending message"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Get All Messages",
+        "url":"/getMessages/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Messages retrieved successfully"
+                ],
+                "data":[
+                    
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Get Message To ->",
+        "url":"/getMessagesTo/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Messages retrieved successfully"
+                ],
+                "data":[
+                    
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    {
+        "title":"Get Message From ->",
+        "url":"/getMessagesFrom/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Messages retrieved successfully"
+                ],
+                "data":[
+                    
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    }
+    ,
+    {
+        "title":"Get Message For ->",
+        "url":"/getMessagesFor/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "username"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Messages retrieved successfully"
+                ],
+                "data":[
+                    
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    },
+    
+    {
+        "title":"Profile Update",
+        "url":"/updateProfile/[apiKey]",
+        "method":"POST",
+        "requestParameters":[
+            [
+                "{object of profile data paramters}"
+            ]
+        ],
+        "response":[
+            {
+                "type":"success",
+                "msg":[
+                    "Profile updated successfully"
+                ]
+            },
+            {
+                "type":"error",
+                "msg":
+                    [
+                        "Error encountered while updating user profile",
+                        "Invalid ApiKey"
+                    ]
+            }
+        ]
+    }
+]

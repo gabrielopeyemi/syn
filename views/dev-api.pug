@@ -1,0 +1,69 @@
+include top
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-warning 
+    lead.navbar-brand.mr-0.mr-md-2(href="#") synchlayer API docs
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+            a() Socket API
+            
+    
+.container-fluid
+    .row.flex-xl-nowrap
+        .card.card-body.col-sm-4.col-md-4.col-xl-4.bg-dark(style="margin-bottom:0px !important;border-radius:0px !important")
+            //a.btn.btn-light(data-toggle="collapse",data-target="#mgbooks",aria-expanded="false",aria-control="mgbooks") Results
+                
+            
+        main.col-sm-7.col-md-7.col-xl-7.py-md-7.pl-md-7.bg-white(role="main")
+            .card-body.bg-white#pt
+                .collapse.show#mgbooks(data-parent="#pt")
+                    for doc in docs
+                        .card.card-body
+                            h6.lead #{doc.title}
+                            .row
+                                .col-md-4
+                                    input.text-info.form-control(disabled type="text",value=`${doc.url}`)
+                                .col-md-2
+                                    input.text-success.form-control(disabled type="text",value=`${doc.method}`)
+                            br
+                            .row
+                                .col
+                                    if (doc.requestParameters.length>0)
+                                        span.text-danger.lead Parameters :
+                                        span.row
+                                            for parameter in doc.requestParameters[0]
+                                                .col-md-4
+                                                    span #{parameter}
+                                                    input.form-control(type="text",placeholder=`${parameter}`,value="")
+                                    else
+                                            p.text-danger.lead Parameters :  None
+                            br
+                            .row
+                                .col
+                                    span.text-info.lead Response
+                                        for resp in doc.response
+                                            span
+                                                if(resp.type=="success")
+                                                    .card-body.bg-success
+                                                        h6
+                                                            b.text-dark #{resp.type}
+                                                        span.text-dark.bg-light #{JSON.stringify(resp.msg[0])}
+                                                else
+                                                    .card-body.bg-warning
+                                                        h6
+                                                            b.text-dark #{resp.type}
+                                                        for err in resp.msg
+                                                            span.text-dark.bg-light #{JSON.stringify(err)}
+                                                            br
+                            br
+                            .row           
+                                .col.col-md-offset-2
+                                    a.btn.btn-warning(onclick=`runTest(${doc.apiKey})`) Run Test 
+                        br
+
+
+include bottom
+
+script(type="text/javascript").
+    runTest=(url,)=>{
+        fetch()
+    }

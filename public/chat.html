@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat.h</title>
+    <link rel="stylesheet" href="./h.css">
+    <script type="text/javascript" src="h.js"></script>
+    <style>
+        .chatPop{
+            position:fixed;
+            right:5px;
+            bottom:10px;
+            width:45%;
+            height:50%;
+            border-radius: 15px;
+            background-color:white;
+        }
+        .msgBox{
+            height:60%;
+            width:100%;
+            overflow-x:hidden;
+            overflow-x: auto;
+        }
+        .msgSelf{
+            text-align: right;
+            background-color:#14edcb;
+            color:white;
+            padding:10px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .msgOthers{
+            text-align: left;
+            display: inline-block;
+            padding:10px;
+            background-color: white;
+            color:#14edcb;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+    </style>
+</head>
+<body style="background-color:aliceblue">
+    <div class="h-card">
+        <h5 class="h-text h-text-lightgreen" >synchlayer chat</h5>
+    </div>
+    <div class="h-card h-bg-purewhite">
+        <div>
+            <input class="h-input h-outline-lightblue" id="chatAs" type="text" placeholder="...chat as..">
+        </div>
+        <p class="h-text-bold">users</p>
+        <div class="" id="usersList">
+        </div>
+    </div>
+    
+</body>
+    <script src="http://localhost:4678/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="chat.js"></script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title testU
+    body
+        form(name="t" action='/up' method="POST" enctype="multipart/form-data")
+            input(id="p" type='file' name="file" required)
+            input(id="p" type='file' name="file" required)
+            input(id="p" type='file' name="video" required)
+            input(type="text" value="listeningTo" name="des")
+            button(onclick="submit()" type="submit") Submit
+script(type="text/javascript").
+    /*submit=async (e)=>{
+        console.log("here")
+        var file=document.getElementById("p").files
+        var formData=new FormData()
+        var blob=new Blob(file)
+        formData.append("photo",blob,"file") 
+        
+        var opt={
+            method:"post",
+            headers:{
+                "Content-Type":"multipart/form-data",
+            },
+            body:formData
+        }
+        var d=await fetch("http://localhost:4678/up",opt).then(r=>r.json()).then(r=>console.log(r))
+        console.log(d)
+    }*/
